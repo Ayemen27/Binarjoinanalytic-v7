@@ -211,7 +211,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                       className="absolute right-0 mt-2 w-48 bg-popover border border-border rounded-md shadow-lg z-50"
                     >
                       <div className="py-1">
-                        <Link href="/dashboard/profile">
+                        <Link href="/dashboard">
                           <Button variant="ghost" className="w-full justify-start gap-2">
                             <User className="h-4 w-4" />
                             {t('user.profile')}
