@@ -40,10 +40,10 @@ export const Sidebar: React.FC = () => {
     {
       title: 'إدارة النظام',
       items: [
-        { name: 'المستخدمين', href: '/dashboard/users', icon: Users },
-        { name: 'الصلاحيات', href: '/dashboard/permissions', icon: Shield },
-        { name: 'قاعدة البيانات', href: '/dashboard/database', icon: Database },
-        { name: 'الأداء', href: '/dashboard/performance', icon: Zap }
+        { name: 'المستخدمين', href: '/dashboard/admin/users', icon: Users },
+        { name: 'الأدوار', href: '/dashboard/admin/roles', icon: Shield },
+        { name: 'الصلاحيات', href: '/dashboard/admin/permissions', icon: Shield },
+        { name: 'قاعدة البيانات', href: '/dashboard/admin/database', icon: Database }
       ]
     },
     {
