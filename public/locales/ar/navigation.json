@@ -1,0 +1,47 @@
+{
+  "brand": "منصة الخدمات الرقمية",
+  "home": "الرئيسية",
+  "features": "المميزات",
+  "pricing": "الأسعار",
+  "about": "من نحن",
+  "contact": "اتصل بنا",
+  "dashboard": "لوحة التحكم",
+  "search": {
+    "placeholder": "البحث..."
+  },
+  "theme": {
+    "light": "فاتح",
+    "dark": "داكن",
+    "system": "النظام"
+  },
+  "language": {
+    "ar": "العربية",
+    "en": "English"
+  },
+  "user": {
+    "profile": "الملف الشخصي",
+    "settings": "الإعدادات",
+    "signOut": "تسجيل الخروج"
+  },
+  "auth": {
+    "signIn": "تسجيل الدخول",
+    "signUp": "إنشاء حساب",
+    "signOut": "تسجيل الخروج"
+  },
+  "menu": {
+    "dashboard": {
+      "title": "لوحة التحكم",
+      "signals": "الإشارات",
+      "analytics": "التحليلات",
+      "notifications": "التنبيهات",
+      "users": "المستخدمين",
+      "permissions": "الصلاحيات",
+      "database": "قاعدة البيانات",
+      "performance": "الأداء",
+      "integrations": "التكاملات",
+      "billing": "الفوترة",
+      "settings": "الإعدادات",
+      "help": "المساعدة"
+    }
+  }
+}

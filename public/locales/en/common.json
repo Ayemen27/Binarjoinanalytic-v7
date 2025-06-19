@@ -1,0 +1,78 @@
+{
+  "site": {
+    "title": "Integrated Digital Services Platform - 15 Professional Systems",
+    "description": "A comprehensive and integrated digital platform featuring 15 interconnected professional systems for advanced trading and smart signals services",
+    "keywords": "digital platform, trading, smart signals, artificial intelligence, technical analysis, forex, cryptocurrency"
+  },
+  "hero": {
+    "badge": "Integrated Platform • 15 Professional Systems",
+    "title": "Integrated Digital Services Platform",
+    "subtitle": "Develop a comprehensive and integrated digital platform featuring 15 interconnected professional systems for advanced trading and smart signals services with the latest global technologies",
+    "cta": {
+      "primary": "Start Free Now",
+      "secondary": "Watch Demo"
+    },
+    "features": {
+      "accuracy": "92%+ Signal Accuracy",
+      "security": "Advanced Security",
+      "performance": "Superior Performance"
+    }
+  },
+  "features": {
+    "title": "15 Integrated Systems",
+    "subtitle": "A comprehensive platform featuring 15 interconnected professional systems for advanced services with the latest global technologies",
+    "categories": {
+      "foundation": {
+        "title": "Foundation Systems",
+        "description": "Infrastructure and authentication"
+      },
+      "core": {
+        "title": "Core Services",
+        "description": "Data management and notifications"
+      },
+      "integration": {
+        "title": "Integration & Intelligence",
+        "description": "External connections and analytics"
+      }
+    }
+  },
+  "statistics": {
+    "title": "Numbers That Speak Excellence",
+    "subtitle": "Performance and success indicators that reflect the quality and reliability of our advanced platform",
+    "metrics": {
+      "uptime": "Uptime",
+      "responseTime": "Response Time",
+      "accuracy": "Signal Accuracy",
+      "users": "Concurrent Users",
+      "satisfaction": "User Satisfaction",
+      "support": "Technical Support"
+    }
+  },
+  "cta": {
+    "title": "Start Your Journey in Smart Trading",
+    "subtitle": "Join thousands of traders who trust our platform to achieve exceptional results with accurate signals and advanced analysis",
+    "primary": "Start Free Trial",
+    "secondary": "Talk to Expert",
+    "benefits": {
+      "trial": "Free 30-day trial",
+      "support": "24/7 specialized support",
+      "updates": "Continuous free updates",
+      "guarantee": "Money-back guarantee",
+      "training": "Comprehensive free training"
+    },
+    "testimonials": {
+      "title": "What Our Customers Say"
+    }
+  },
+  "newsletter": {
+    "title": "Subscribe to Newsletter",
+    "placeholder": "Enter your email",
+    "button": "Subscribe"
+  },
+  "search": {
+    "placeholder": "Search the platform..."
+  },
+  "loading": "Loading...",
+  "error": "An error occurred",
+  "success": "Operation completed successfully"
+}

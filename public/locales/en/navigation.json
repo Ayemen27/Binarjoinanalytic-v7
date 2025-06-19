@@ -1,0 +1,47 @@
+{
+  "brand": "Digital Services Platform",
+  "home": "Home",
+  "features": "Features", 
+  "pricing": "Pricing",
+  "about": "About",
+  "contact": "Contact",
+  "dashboard": "Dashboard",
+  "search": {
+    "placeholder": "Search..."
+  },
+  "theme": {
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System"
+  },
+  "language": {
+    "ar": "العربية",
+    "en": "English"
+  },
+  "user": {
+    "profile": "Profile",
+    "settings": "Settings",
+    "signOut": "Sign Out"
+  },
+  "auth": {
+    "signIn": "Sign In",
+    "signUp": "Sign Up",
+    "signOut": "Sign Out"
+  },
+  "menu": {
+    "dashboard": {
+      "title": "Dashboard",
+      "signals": "Signals",
+      "analytics": "Analytics",
+      "notifications": "Notifications",
+      "users": "Users",
+      "permissions": "Permissions",
+      "database": "Database",
+      "performance": "Performance",
+      "integrations": "Integrations",
+      "billing": "Billing",
+      "settings": "Settings",
+      "help": "Help"
+    }
+  }
+}
