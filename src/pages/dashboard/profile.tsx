@@ -230,8 +230,8 @@ const ProfilePage: NextPage = () => {
                     حماية إضافية لحسابك
                   </p>
                 </div>
-                <Button variant="outline" disabled>
-                  تفعيل (قريباً)
+                <Button variant="outline" onClick={() => window.location.href = '/dashboard/enable-2fa'}>
+                  تفعيل
                 </Button>
               </div>
 
@@ -242,8 +242,8 @@ const ProfilePage: NextPage = () => {
                     تحديث كلمة المرور الحالية
                   </p>
                 </div>
-                <Button variant="outline" disabled>
-                  تغيير (قريباً)
+                <Button variant="outline" onClick={() => window.location.href = '/dashboard/change-password'}>
+                  تغيير
                 </Button>
               </div>
 
@@ -254,8 +254,8 @@ const ProfilePage: NextPage = () => {
                     حذف نهائي للحساب وجميع البيانات
                   </p>
                 </div>
-                <Button variant="destructive" disabled>
-                  حذف (قريباً)
+                <Button variant="destructive" onClick={() => window.location.href = '/dashboard/delete-account'}>
+                  حذف الحساب
                 </Button>
               </div>
             </div>

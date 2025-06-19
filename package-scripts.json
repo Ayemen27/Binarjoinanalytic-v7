@@ -4,6 +4,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "db:push": "drizzle-kit push:pg",
+    "db:studio": "drizzle-kit studio",
+    "test": "jest",
     "type-check": "tsc --noEmit"
   }
 }
