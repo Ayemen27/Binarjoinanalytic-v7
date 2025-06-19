@@ -1,13 +1,13 @@
 import type { AppProps } from 'next/app';
 import { Inter, IBM_Plex_Sans_Arabic } from 'next/font/google';
 import { appWithTranslation } from 'next-i18next';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-import { useState } from 'react';
+import { QueryClientProvider } from '@tanstack/react-query';
+
 
 import { AuthProvider } from '@/providers/AuthProvider';
 import { ThemeProvider } from '@/providers/ThemeProvider';
 import { ToastProvider } from '@/providers/ToastProvider';
+import { queryClient } from '@/lib/queryClient';
 import '@/styles/globals.css';
 
 // Font configurations
@@ -25,28 +25,6 @@ const ibmPlexArabic = IBM_Plex_Sans_Arabic({
 });
 
 function MyApp({ Component, pageProps }: AppProps) {
-  // Create a stable QueryClient instance
-  const [queryClient] = useState(
-    () =>
-      new QueryClient({
-        defaultOptions: {
-          queries: {
-            staleTime: 60 * 1000, // 1 minute
-            retry: (failureCount, error: any) => {
-              // Don't retry on 4xx errors except 408, 429
-              if (error?.status >= 400 && error?.status < 500 && ![408, 429].includes(error.status)) {
-                return false;
-              }
-              return failureCount < 3;
-            },
-          },
-          mutations: {
-            retry: 1,
-          },
-        },
-      })
-  );
-
   return (
     <div className={`${inter.variable} ${ibmPlexArabic.variable}`}>
       <QueryClientProvider client={queryClient}>
@@ -57,9 +35,7 @@ function MyApp({ Component, pageProps }: AppProps) {
             </ToastProvider>
           </AuthProvider>
         </ThemeProvider>
-        {process.env.NODE_ENV === 'development' && (
-          <ReactQueryDevtools initialIsOpen={false} />
-        )}
+
       </QueryClientProvider>
     </div>
   );
