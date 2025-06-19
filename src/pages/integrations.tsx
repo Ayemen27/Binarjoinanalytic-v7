@@ -98,13 +98,13 @@ const IntegrationsPage = () => {
 
   const isConnected = (platformName: string) => {
     return userIntegrations.some(
-      integration => integration.external_platforms?.name === platformName && integration.status === 'connected'
+      integration => integration.platform_id === platformName && integration.status === 'connected'
     )
   }
 
   const getIntegration = (platformName: string) => {
     return userIntegrations.find(
-      integration => integration.external_platforms?.name === platformName
+      integration => integration.platform_id === platformName
     )
   }
 

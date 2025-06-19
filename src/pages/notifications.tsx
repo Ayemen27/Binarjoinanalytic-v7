@@ -113,7 +113,7 @@ const NotificationsPage = () => {
               disabled={unreadCount === 0}
               variant="outline"
             >
-              <CheckCheck className="h-4 w-4 mr-2" />
+              <CheckCircle className="h-4 w-4 mr-2" />
               تحديد الكل كمقروء
             </Button>
             <Button
