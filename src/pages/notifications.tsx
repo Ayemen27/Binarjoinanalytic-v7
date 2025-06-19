@@ -15,7 +15,7 @@ import {
   Settings as SettingsIcon,
   Wifi,
   WifiOff,
-  MarkAll,
+  CheckCheck,
   Trash2
 } from 'lucide-react'
 import { useRouter } from 'next/router'
@@ -113,7 +113,7 @@ const NotificationsPage = () => {
               disabled={unreadCount === 0}
               variant="outline"
             >
-              <MarkAll className="h-4 w-4 mr-2" />
+              <CheckCheck className="h-4 w-4 mr-2" />
               تحديد الكل كمقروء
             </Button>
             <Button

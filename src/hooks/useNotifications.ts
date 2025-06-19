@@ -135,24 +135,23 @@ export const useRealtimeNotifications = () => {
   useEffect(() => {
     if (!user) return
 
-    const subscription = notificationsService.subscribeToUserNotifications(
+    let subscription: any
+
+    notificationsService.subscribeToUserNotifications(
       user.id,
       (notification) => {
-        // Update the notifications cache
         queryClient.invalidateQueries({ queryKey: ['notifications', user.id] })
         queryClient.invalidateQueries({ queryKey: ['notifications', 'unread', user.id] })
-
-        // Show toast for important notifications
-        if (notification.type === 'signal' || notification.type === 'error') {
-          // Toast will be handled by the notification component
-        }
       }
-    )
-
-    setIsConnected(true)
+    ).then(sub => {
+      subscription = sub
+      setIsConnected(true)
+    })
 
     return () => {
-      subscription.unsubscribe()
+      if (subscription) {
+        subscription.unsubscribe()
+      }
       setIsConnected(false)
     }
   }, [user, queryClient])
