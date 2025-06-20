@@ -330,12 +330,53 @@
   
   /* Gradient Text */
   .gradient-text {
-    @apply bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent;
+  }
+  
+  /* Modern Gradients */
+  .gradient-primary {
+    @apply bg-gradient-to-br from-primary/90 via-primary to-primary/80;
+  }
+  
+  .gradient-success {
+    @apply bg-gradient-to-br from-success/90 via-success to-success/80;
+  }
+  
+  .gradient-warning {
+    @apply bg-gradient-to-br from-warning/90 via-warning to-warning/80;
+  }
+  
+  /* Modern Card Shadows */
+  .card-modern {
+    @apply bg-card/50 backdrop-blur-sm border border-border/50 shadow-soft hover:shadow-medium transition-all duration-300;
+  }
+  
+  .card-elevated {
+    @apply bg-card shadow-medium hover:shadow-hard transition-all duration-300 hover:-translate-y-1;
+  }
+  
+  /* Interactive Elements */
+  .interactive-hover {
+    @apply transition-all duration-200 hover:scale-[1.02] hover:shadow-medium;
+  }
+  
+  .button-modern {
+    @apply relative overflow-hidden before:absolute before:inset-0 before:bg-gradient-to-r before:from-transparent before:via-white/20 before:to-transparent before:translate-x-[-200%] hover:before:translate-x-[200%] before:transition-transform before:duration-700;
   }
   
   /* Loading Animation */
   .loading {
     @apply animate-spin h-4 w-4 border-2 border-current border-t-transparent rounded-full;
+  }
+  
+  /* Pulse Animation */
+  .pulse-subtle {
+    animation: pulse-subtle 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+  
+  /* Modern Focus */
+  .focus-modern {
+    @apply focus:ring-2 focus:ring-primary/50 focus:ring-offset-2 focus:ring-offset-background transition-all;
   }
 }
 
@@ -368,6 +409,21 @@
 @keyframes slideOutToTop48 {
   from { transform: translateY(0); }
   to { transform: translateY(-48%); }
+}
+
+@keyframes pulse-subtle {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.8; }
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
 }
 
 /* Print Styles */

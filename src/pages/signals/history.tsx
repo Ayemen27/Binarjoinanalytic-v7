@@ -95,10 +95,55 @@ const mockHistoryData: HistorySignal[] = [
 ];
 
 const SignalHistoryPage: NextPage = () => {
-  const [signals, setSignals] = useState<HistorySignal[]>(mockHistoryData);
-  const [filteredSignals, setFilteredSignals] = useState<HistorySignal[]>(mockHistoryData);
+  const [signals, setSignals] = useState<HistorySignal[]>([]);
+  const [filteredSignals, setFilteredSignals] = useState<HistorySignal[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
+  const [loading, setLoading] = useState(true);
   const [statusFilter, setStatusFilter] = useState<string>('all');
+
+  // جلب البيانات من API
+  useEffect(() => {
+    const fetchSignals = async () => {
+      try {
+        setLoading(true);
+        const response = await fetch('/api/signals/history?userId=temp-user');
+        const result = await response.json();
+        
+        if (result.success) {
+          // تحويل البيانات للتوافق مع واجهة HistorySignal
+          const transformedSignals = result.data.map((signal: any) => ({
+            id: signal.id,
+            symbol: signal.symbol,
+            direction: signal.direction,
+            entryPrice: signal.entry_price,
+            exitPrice: signal.exit_price,
+            targetPrice: signal.target_price,
+            stopLoss: signal.stop_loss,
+            confidence: signal.confidence_score,
+            status: signal.status,
+            profitLoss: signal.profit_loss,
+            profitLossPercentage: signal.profit_loss_percentage,
+            timeframe: signal.timeframe,
+            strategy: signal.strategy_name,
+            createdAt: signal.created_at,
+            closedAt: signal.updated_at
+          }));
+          
+          setSignals(transformedSignals);
+        } else {
+          // استخدام البيانات التجريبية في حالة الفشل
+          setSignals(mockHistoryData);
+        }
+      } catch (error) {
+        console.error('خطأ في جلب السجل:', error);
+        setSignals(mockHistoryData);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchSignals();
+  }, []);
   const [symbolFilter, setSymbolFilter] = useState<string>('all');
 
   useEffect(() => {

@@ -77,13 +77,38 @@ const mockNotifications: Notification[] = [
 ];
 
 const NotificationsPage: NextPage = () => {
-  const [notifications, setNotifications] = useState<Notification[]>(mockNotifications);
-  const [filteredNotifications, setFilteredNotifications] = useState<Notification[]>(mockNotifications);
+  const [notifications, setNotifications] = useState<Notification[]>([]);
+  const [filteredNotifications, setFilteredNotifications] = useState<Notification[]>([]);
+  const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [typeFilter, setTypeFilter] = useState<string>('all');
   const [statusFilter, setStatusFilter] = useState<string>('all');
   const [selectedNotifications, setSelectedNotifications] = useState<string[]>([]);
   const { toast } = useToast();
+
+  // جلب التنبيهات من API
+  useEffect(() => {
+    const fetchNotifications = async () => {
+      try {
+        setLoading(true);
+        const response = await fetch('/api/notifications?userId=temp-user');
+        const result = await response.json();
+        
+        if (result.success) {
+          setNotifications(result.data);
+        } else {
+          setNotifications(mockNotifications);
+        }
+      } catch (error) {
+        console.error('خطأ في جلب التنبيهات:', error);
+        setNotifications(mockNotifications);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchNotifications();
+  }, []);
 
   useEffect(() => {
     let filtered = notifications;

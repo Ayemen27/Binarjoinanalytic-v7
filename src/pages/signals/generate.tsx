@@ -12,6 +12,7 @@ import { Card } from '@/components/atoms/Card';
 import { Button } from '@/components/atoms/Button';
 import { Input } from '@/components/atoms/Input';
 import { useToast } from '@/hooks/useToast';
+import { useAuth } from '@/providers/AuthProvider';
 
 const signalSchema = z.object({
   symbol: z.string().min(1, 'رمز العملة مطلوب'),
@@ -46,6 +47,7 @@ const GenerateSignalPage: NextPage = () => {
   const [signal, setSignal] = useState<Signal | null>(null);
   const [isGenerating, setIsGenerating] = useState(false);
   const { toast } = useToast();
+  const { user } = useAuth();
 
   const {
     register,
@@ -65,34 +67,44 @@ const GenerateSignalPage: NextPage = () => {
   const generateSignal = async (data: SignalFormData) => {
     setIsGenerating(true);
     try {
-      // محاكاة توليد الإشارة بناءً على البيانات المدخلة
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      // استدعاء API لتوليد الإشارة
+      const signalResponse = await fetch('/api/signals/generate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          ...data,
+          userId: user?.id || 'temp-user'
+        }),
+      });
 
-      const currentPrice = Math.random() * (1.2000 - 1.0500) + 1.0500;
-      const direction = Math.random() > 0.5 ? 'BUY' : 'SELL';
-      const pipDifference = Math.random() * 0.01 + 0.005;
+      const result = await response.json();
 
+      if (!result.success) {
+        throw new Error(result.error || 'فشل في توليد الإشارة');
+      }
+
+      // تحويل البيانات للتوافق مع واجهة Signal
       const generatedSignal: Signal = {
-        id: `signal_${Date.now()}`,
-        symbol: data.symbol,
-        direction,
-        entryPrice: Number(currentPrice.toFixed(5)),
-        targetPrice: Number((direction === 'BUY' ? currentPrice + pipDifference : currentPrice - pipDifference).toFixed(5)),
-        stopLoss: Number((direction === 'BUY' ? currentPrice - pipDifference/2 : currentPrice + pipDifference/2).toFixed(5)),
-        confidence: Math.floor(Math.random() * 30) + 70,
-        riskLevel: data.riskLevel,
-        timeframe: data.timeframe,
-        strategy: data.strategy,
-        technicalAnalysis: {
+        id: result.data.id,
+        symbol: result.data.symbol,
+        direction: result.data.direction,
+        entryPrice: result.data.entry_price,
+        targetPrice: result.data.target_price,
+        stopLoss: result.data.stop_loss,
+        confidence: result.data.confidence_score,
+        riskLevel: result.data.risk_level,
+        timeframe: result.data.timeframe,
+        strategy: result.data.strategy_name,
+        technicalAnalysis: result.data.technical_analysis || {
           rsi: Math.floor(Math.random() * 40) + 30,
           macd: Math.random() > 0.5 ? 'Bullish' : 'Bearish',
-          support: Number((currentPrice - 0.005).toFixed(5)),
-          resistance: Number((currentPrice + 0.005).toFixed(5)),
+          support: result.data.entry_price - 0.005,
+          resistance: result.data.entry_price + 0.005,
         },
         reasoning: [
-          'تحليل فني قوي يشير إلى اتجاه ' + (direction === 'BUY' ? 'صاعد' : 'هابط'),
-          'مؤشر RSI في منطقة ' + (direction === 'BUY' ? 'تشبع بيع' : 'تشبع شراء'),
-          'كسر مستوى ' + (direction === 'BUY' ? 'مقاومة' : 'دعم') + ' مهم',
+          'تحليل فني قوي يشير إلى اتجاه ' + (result.data.direction === 'BUY' ? 'صاعد' : 'هابط'),
+          'مؤشر RSI في منطقة ' + (result.data.direction === 'BUY' ? 'تشبع بيع' : 'تشبع شراء'),
+          'كسر مستوى ' + (result.data.direction === 'BUY' ? 'مقاومة' : 'دعم') + ' مهم',
           'تأكيد من مؤشر MACD',
         ],
       };

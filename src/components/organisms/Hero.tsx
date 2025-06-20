@@ -53,7 +53,7 @@ export const Hero: React.FC = () => {
               className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 mb-6"
             >
               <Zap className="h-4 w-4 text-primary" />
-              <span className="text-sm font-medium text-primary">منصة متكاملة • 15 نظام احترافي</span>
+              <span className="text-sm font-medium text-primary">توليد إشارات ذكية • تقنية AI متطورة</span>
             </motion.div>
 
             {/* Main Heading */}
@@ -63,9 +63,9 @@ export const Hero: React.FC = () => {
               transition={{ delay: 0.3, duration: 0.8 }}
               className="text-4xl md:text-6xl font-bold text-foreground mb-6 leading-tight"
             >
-              منصة الخدمات الرقمية
+              AI Signals Pro
               <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent block">
-                المتكاملة
+                منصة توليد إشارات التداول الذكية
               </span>
             </motion.h1>
 
@@ -76,8 +76,8 @@ export const Hero: React.FC = () => {
               transition={{ delay: 0.4, duration: 0.8 }}
               className="text-lg md:text-xl text-muted-foreground mb-8 max-w-2xl mx-auto lg:mx-0"
             >
-              تطوير منصة رقمية شاملة ومتكاملة تضم 15 نظامًا احترافيًا مترابطًا لتقديم خدمات متطورة 
-              في مجال التداول والإشارات الذكية مع تطبيق أحدث التقنيات العالمية.
+              منصة احترافية عالمية لتوليد إشارات التداول عالية الدقة باستخدام الذكاء الاصطناعي المتقدم 
+              والتحليل الفني الذكي مع أحدث التقنيات المالية.
             </motion.p>
 
             {/* CTA Buttons */}

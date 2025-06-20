@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import { useTranslation } from 'next-i18next';
@@ -19,33 +19,42 @@ import { Layout } from '@/components/organisms/Layout';
 import { ProtectedRoute } from '@/components/organisms/ProtectedRoute';
 import { Card } from '@/components/atoms/Card';
 import { Button } from '@/components/atoms/Button';
+import RealTimePriceWidget from '@/components/organisms/RealTimePriceWidget';
+import ModernHeader from '@/components/organisms/ModernHeader';
+import AnimatedStats from '@/components/organisms/AnimatedStats';
+import { useAuth } from '@/providers/AuthProvider';
 import { useAuth } from '@/providers/AuthProvider';
 
 const DashboardPage: NextPage = () => {
   const { t } = useTranslation('common');
   const { user } = useAuth();
+  const [loading, setLoading] = useState(true);
+  const [recentSignals, setRecentSignals] = useState<any[]>([]);
 
   const stats = [
     {
-      title: 'إجمالي الإشارات',
-      value: '156',
+      title: 'إجمالي الإشارات المولدة',
+      value: '1,247',
       change: '+12%',
+      changeType: 'positive' as const,
       icon: Activity,
       color: 'text-primary',
       bgColor: 'bg-primary/10',
     },
     {
-      title: 'نسبة النجاح',
-      value: '87.5%',
+      title: 'دقة توليد الإشارات',
+      value: '89.2%',
       change: '+2.4%',
+      changeType: 'positive' as const,
       icon: TrendingUp,
       color: 'text-success',
       bgColor: 'bg-success/10',
     },
     {
-      title: 'الربح الإجمالي',
-      value: '$2,847',
+      title: 'العائد المتوقع',
+      value: '$47,250',
       change: '+18.2%',
+      changeType: 'positive' as const,
       icon: DollarSign,
       color: 'text-warning',
       bgColor: 'bg-warning/10',

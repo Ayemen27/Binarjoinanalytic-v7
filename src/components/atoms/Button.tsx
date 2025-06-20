@@ -30,24 +30,28 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ) => {
     const baseStyles = `
       inline-flex items-center justify-center whitespace-nowrap rounded-md 
-      text-sm font-medium transition-all duration-200 focus-visible:outline-none 
-      focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 
-      disabled:pointer-events-none disabled:opacity-50 active:scale-[0.98]
-      relative overflow-hidden
+      text-sm font-medium transition-all duration-300 focus-visible:outline-none 
+      focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:ring-offset-2 
+      disabled:pointer-events-none disabled:opacity-50 active:scale-[0.96]
+      relative overflow-hidden group
     `;
 
     const variants = {
       primary: `
-        bg-primary text-primary-foreground hover:bg-primary/90 
-        shadow-md hover:shadow-lg active:shadow-sm
+        bg-gradient-to-br from-primary via-primary to-primary/90 text-primary-foreground 
+        hover:from-primary/90 hover:to-primary shadow-soft hover:shadow-medium
+        before:absolute before:inset-0 before:bg-gradient-to-r before:from-transparent 
+        before:via-white/20 before:to-transparent before:translate-x-[-200%] 
+        hover:before:translate-x-[200%] before:transition-transform before:duration-700
       `,
       secondary: `
-        bg-secondary text-secondary-foreground hover:bg-secondary/80
-        border border-secondary-foreground/20
+        bg-gradient-to-br from-secondary to-secondary/90 text-secondary-foreground 
+        hover:from-secondary/90 hover:to-secondary border border-secondary-foreground/20
+        hover:border-secondary-foreground/30
       `,
       outline: `
-        border border-input bg-background hover:bg-accent 
-        hover:text-accent-foreground hover:border-accent-foreground/50
+        border border-input bg-background/50 backdrop-blur-sm hover:bg-accent/80 
+        hover:text-accent-foreground hover:border-primary/50 hover:shadow-soft
       `,
       ghost: `
         hover:bg-accent hover:text-accent-foreground

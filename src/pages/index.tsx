@@ -9,6 +9,8 @@ import { Hero } from '@/components/organisms/Hero';
 import { Features } from '@/components/organisms/Features';
 import { Statistics } from '@/components/organisms/Statistics';
 import { CTA } from '@/components/organisms/CTA';
+import MarketOverview from '@/components/organisms/MarketOverview';
+import MarketOverview from '@/components/organisms/MarketOverview';
 
 const HomePage: NextPage = () => {
   const { t } = useTranslation('common');
@@ -16,23 +18,40 @@ const HomePage: NextPage = () => {
   return (
     <>
       <Head>
-        <title>{t('site.title')}</title>
-        <meta name="description" content={t('site.description')} />
-        <meta name="keywords" content={t('site.keywords')} />
-        <meta property="og:title" content={t('site.title')} />
-        <meta property="og:description" content={t('site.description')} />
+        <title>AI Signals Pro - منصة توليد إشارات التداول بالذكاء الاصطناعي</title>
+        <meta name="description" content="منصة احترافية عالمية لتوليد إشارات التداول عالية الدقة باستخدام الذكاء الاصطناعي المتقدم والتحليل الفني الذكي" />
+        <meta name="keywords" content="إشارات التداول, الذكاء الاصطناعي, تحليل فني, إشارات فوركس, توليد إشارات, AI trading signals" />
+        <meta property="og:title" content="AI Signals Pro - منصة توليد إشارات التداول" />
+        <meta property="og:description" content="منصة احترافية عالمية لتوليد إشارات التداول عالية الدقة باستخدام الذكاء الاصطناعي المتقدم" />
         <meta property="og:image" content="/og-image.png" />
-        <meta property="og:url" content="https://platform.com" />
-        <meta name="twitter:title" content={t('site.title')} />
-        <meta name="twitter:description" content={t('site.description')} />
+        <meta property="og:url" content="https://aisignals.pro" />
+        <meta name="twitter:title" content="AI Signals Pro - إشارات التداول الذكية" />
+        <meta name="twitter:description" content="منصة توليد إشارات التداول المدعومة بالذكاء الاصطناعي مع دقة استثنائية" />
         <meta name="twitter:image" content="/og-image.png" />
-        <link rel="canonical" href="https://platform.com" />
+        <link rel="canonical" href="https://aisignals.pro" />
+        
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "SoftwareApplication",
+              "name": "AI Signals Pro",
+              "applicationCategory": "FinanceApplication",
+              "description": "Professional AI-powered trading signals generation platform",
+              "operatingSystem": "Web Browser"
+            })
+          }}
+        />
       </Head>
 
       <Layout>
         <main className="min-h-screen">
           {/* Hero Section */}
           <Hero />
+          
+          {/* Market Overview */}
+          <MarketOverview />
           
           {/* Features Section */}
           <Features />
