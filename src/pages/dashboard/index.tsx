@@ -23,7 +23,6 @@ import RealTimePriceWidget from '@/components/organisms/RealTimePriceWidget';
 import ModernHeader from '@/components/organisms/ModernHeader';
 import AnimatedStats from '@/components/organisms/AnimatedStats';
 import { useAuth } from '@/providers/AuthProvider';
-import { useAuth } from '@/providers/AuthProvider';
 
 const DashboardPage: NextPage = () => {
   const { t } = useTranslation('common');

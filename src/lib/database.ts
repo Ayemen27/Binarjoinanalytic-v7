@@ -1,4 +1,5 @@
 import { createClient } from '@supabase/supabase-js';
+import { storage } from '@/server/storage';
 import SignalAIEngine from './ai-engine';
 
 // استخدام المتغيرات المتاحة

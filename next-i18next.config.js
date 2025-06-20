@@ -1,6 +1,6 @@
 module.exports = {
   i18n: {
-    defaultLocale: 'ar',
+    defaultLocale: 'en',
     locales: ['ar', 'en'],
     fallbackLng: 'en',
     interpolation: {
@@ -14,7 +14,7 @@ module.exports = {
   fallbackLng: {
     'ar-SA': ['ar', 'en'],
     'en-US': ['en', 'ar'],
-    default: ['ar', 'en'],
+    default: ['en', 'ar'],
   },
   localePath: './public/locales',
   reloadOnPrerender: process.env.NODE_ENV === 'development',

@@ -20,6 +20,7 @@ import {
 import { Button } from '@/components/atoms/Button';
 import { Input } from '@/components/atoms/Input';
 import { useAuth } from '@/providers/AuthProvider';
+import LanguageSwitcher from '@/components/atoms/LanguageSwitcher';
 import { useTheme } from '@/providers/ThemeProvider';
 import { cn } from '@/utils/cn';
 
@@ -57,15 +58,7 @@ export const Navbar: React.FC<NavbarProps> = ({
     { value: 'system', label: t('theme.system'), icon: Monitor },
   ];
 
-  // Language options
-  const languageOptions = [
-    { value: 'ar', label: 'العربية', flag: '🇸🇦' },
-    { value: 'en', label: 'English', flag: '🇺🇸' },
-  ];
 
-  const handleLanguageChange = (locale: string) => {
-    router.push(router.pathname, router.asPath, { locale });
-  };
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();

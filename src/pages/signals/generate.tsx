@@ -77,7 +77,7 @@ const GenerateSignalPage: NextPage = () => {
         }),
       });
 
-      const result = await response.json();
+      const result = await signalResponse.json();
 
       if (!result.success) {
         throw new Error(result.error || 'فشل في توليد الإشارة');
@@ -112,7 +112,7 @@ const GenerateSignalPage: NextPage = () => {
       setSignal(generatedSignal);
       
       // حفظ الإشارة في قاعدة البيانات
-      const response = await fetch('/api/signals', {
+      const saveResponse = await fetch('/api/signals', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(generatedSignal),
