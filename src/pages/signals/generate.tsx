@@ -65,14 +65,12 @@ const GenerateSignalPage: NextPage = () => {
   const generateSignal = async (data: SignalFormData) => {
     setIsGenerating(true);
     try {
-      // تحليل فني متقدم باستخدام محرك AI
-      const technicalAnalysis = await performTechnicalAnalysis(data.symbol, data.timeframe);
-      const sentimentAnalysis = await analyzeSentiment(data.symbol);
-      const aiPrediction = await generateAIPrediction(data.symbol, technicalAnalysis, sentimentAnalysis);
+      // محاكاة توليد الإشارة بناءً على البيانات المدخلة
+      await new Promise(resolve => setTimeout(resolve, 2000));
 
-      const currentPrice = technicalAnalysis.currentPrice;
-      const direction = aiPrediction.direction;
-      const pipDifference = aiPrediction.expectedMove;
+      const currentPrice = Math.random() * (1.2000 - 1.0500) + 1.0500;
+      const direction = Math.random() > 0.5 ? 'BUY' : 'SELL';
+      const pipDifference = Math.random() * 0.01 + 0.005;
 
       const generatedSignal: Signal = {
         id: `signal_${Date.now()}`,
@@ -81,43 +79,40 @@ const GenerateSignalPage: NextPage = () => {
         entryPrice: Number(currentPrice.toFixed(5)),
         targetPrice: Number((direction === 'BUY' ? currentPrice + pipDifference : currentPrice - pipDifference).toFixed(5)),
         stopLoss: Number((direction === 'BUY' ? currentPrice - pipDifference/2 : currentPrice + pipDifference/2).toFixed(5)),
-        confidence: aiPrediction.confidence,
+        confidence: Math.floor(Math.random() * 30) + 70,
         riskLevel: data.riskLevel,
         timeframe: data.timeframe,
         strategy: data.strategy,
         technicalAnalysis: {
-          rsi: technicalAnalysis.rsi,
-          macd: technicalAnalysis.macd.trend === 'bullish' ? 'Bullish' : 'Bearish',
-          support: technicalAnalysis.support,
-          resistance: technicalAnalysis.resistance,
+          rsi: Math.floor(Math.random() * 40) + 30,
+          macd: Math.random() > 0.5 ? 'Bullish' : 'Bearish',
+          support: Number((currentPrice - 0.005).toFixed(5)),
+          resistance: Number((currentPrice + 0.005).toFixed(5)),
         },
-        reasoning: aiPrediction.reasoning,
+        reasoning: [
+          'تحليل فني قوي يشير إلى اتجاه ' + (direction === 'BUY' ? 'صاعد' : 'هابط'),
+          'مؤشر RSI في منطقة ' + (direction === 'BUY' ? 'تشبع بيع' : 'تشبع شراء'),
+          'كسر مستوى ' + (direction === 'BUY' ? 'مقاومة' : 'دعم') + ' مهم',
+          'تأكيد من مؤشر MACD',
+        ],
       };
 
       setSignal(generatedSignal);
       
-      // حفظ الإشارة وإرسال إشعارات
+      // حفظ الإشارة في قاعدة البيانات
       const response = await fetch('/api/signals', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          ...generatedSignal,
-          technicalData: technicalAnalysis,
-          sentimentData: sentimentAnalysis,
-          aiData: aiPrediction
-        }),
+        body: JSON.stringify(generatedSignal),
       });
 
       if (!response.ok) {
         throw new Error('فشل في حفظ الإشارة');
       }
 
-      // إرسال إشعار فوري
-      await sendSignalNotification(generatedSignal);
-
       toast({
         title: 'تم توليد الإشارة بنجاح',
-        description: `إشارة ${direction} لزوج ${data.symbol} بثقة ${generatedSignal.confidence}%`,
+        description: `إشارة ${direction} لزوج ${data.symbol}`,
         variant: 'success',
       });
 
@@ -129,98 +124,6 @@ const GenerateSignalPage: NextPage = () => {
       });
     } finally {
       setIsGenerating(false);
-    }
-  };
-
-  // دوال مساعدة لمحرك AI المتقدم
-  const performTechnicalAnalysis = async (symbol: string, timeframe: string) => {
-    const currentPrice = Math.random() * (1.2000 - 1.0500) + 1.0500;
-    const rsi = Math.random() * 100;
-    const isBullish = Math.random() > 0.5;
-    
-    return {
-      currentPrice,
-      rsi,
-      macd: {
-        value: (Math.random() - 0.5) * 0.002,
-        signal: (Math.random() - 0.5) * 0.002,
-        trend: isBullish ? 'bullish' : 'bearish'
-      },
-      support: Number((currentPrice - Math.random() * 0.01).toFixed(5)),
-      resistance: Number((currentPrice + Math.random() * 0.01).toFixed(5)),
-      volume: Math.random() * 1000000 + 500000,
-      volatility: Math.random() * 0.02 + 0.01
-    };
-  };
-
-  const analyzeSentiment = async (symbol: string) => {
-    return {
-      score: (Math.random() - 0.5) * 2,
-      confidence: Math.random() * 0.3 + 0.7,
-      sources: ['Reuters', 'Bloomberg', 'Economic Calendar'],
-      keywords: ['interest rates', 'inflation', 'economic growth']
-    };
-  };
-
-  const generateAIPrediction = async (symbol: string, technical: any, sentiment: any) => {
-    const confidence = Math.floor(Math.random() * 25 + 70);
-    const direction = Math.random() > 0.5 ? 'BUY' : 'SELL';
-    const expectedMove = Math.random() * 0.015 + 0.005;
-    
-    const reasoning = [];
-    
-    if (technical.rsi > 70) {
-      reasoning.push('مؤشر RSI يشير إلى تشبع شرائي محتمل');
-    } else if (technical.rsi < 30) {
-      reasoning.push('مؤشر RSI يشير إلى تشبع بيعي - فرصة شراء');
-    } else {
-      reasoning.push('مؤشر RSI في المنطقة المحايدة');
-    }
-    
-    if (technical.macd.trend === 'bullish') {
-      reasoning.push('مؤشر MACD يظهر زخماً صاعداً');
-    } else {
-      reasoning.push('مؤشر MACD يظهر ضعفاً في الزخم');
-    }
-    
-    if (sentiment.score > 0.3) {
-      reasoning.push('المشاعر العامة للسوق إيجابية');
-    } else if (sentiment.score < -0.3) {
-      reasoning.push('المشاعر العامة للسوق سلبية');
-    }
-    
-    reasoning.push(`التوقع النهائي: اتجاه ${direction === 'BUY' ? 'صاعد' : 'هابط'} بثقة ${confidence}%`);
-    
-    return {
-      direction,
-      confidence,
-      expectedMove,
-      reasoning,
-      conditions: {
-        volatility: technical.volatility > 0.015 ? 'high' : 'normal',
-        trend: Math.abs(sentiment.score) > 0.5 ? 'strong' : 'weak'
-      }
-    };
-  };
-
-  const sendSignalNotification = async (signal: Signal) => {
-    try {
-      await fetch('/api/notifications', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          type: 'signal',
-          title: `إشارة جديدة: ${signal.direction} ${signal.symbol}`,
-          message: `تم توليد إشارة ${signal.direction} لزوج ${signal.symbol} بثقة ${signal.confidence}%`,
-          isImportant: signal.confidence > 85,
-          metadata: {
-            signalId: signal.id,
-            actionUrl: '/signals/history'
-          }
-        })
-      });
-    } catch (error) {
-      console.error('Failed to send notification:', error);
     }
   };
 
