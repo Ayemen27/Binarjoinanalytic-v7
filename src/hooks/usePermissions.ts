@@ -1,6 +1,5 @@
-import { useMemo, useEffect, useState } from 'react';
+import { useMemo } from 'react';
 import { useAuth } from '@/providers/AuthProvider';
-import { rbacService } from '@/lib/rbac';
 
 interface Permission {
   resource: string;
@@ -20,63 +19,43 @@ interface UsePermissionsReturn {
 
 export const usePermissions = (): UsePermissionsReturn => {
   const { user, session } = useAuth();
-  const [userPermissions, setUserPermissions] = useState<string[]>([]);
-  const [userRole, setUserRole] = useState<string | null>(null);
 
-  useEffect(() => {
-    if (user) {
-      // Load user permissions and role from RBAC service
-      const loadUserData = async () => {
-        try {
-          const [permissions, highestRole] = await Promise.all([
-            rbacService.getUserPermissions(user.id),
-            rbacService.getUserHighestRole(user.id)
-          ]);
-          
-          setUserPermissions(permissions.map(p => p.name));
-          setUserRole(highestRole?.name || null);
-        } catch (error) {
-          console.error('Error loading user permissions:', error);
-          // Fallback to email-based role detection
-          if (user.email?.includes('admin')) setUserRole('admin');
-          else if (user.email?.includes('mod')) setUserRole('moderator');
-          else setUserRole('user');
-        }
-      };
-      
-      loadUserData();
-    }
+  const userRole = useMemo(() => {
+    // Placeholder until RBAC is implemented
+    // This will be replaced with actual role lookup from database
+    if (!user) return null;
+    
+    // For now, check if user email indicates admin role
+    if (user.email?.includes('admin')) return 'admin';
+    if (user.email?.includes('mod')) return 'moderator';
+    return 'user';
   }, [user]);
 
   const hasPermission = (permission: string | Permission): boolean => {
     if (!session || !user) return false;
 
+    // Placeholder implementation
+    // TODO: Replace with actual RBAC permission checking
+    
     if (typeof permission === 'string') {
-      // Check if user has this specific permission
-      if (userPermissions.includes(permission)) return true;
-      
-      // Fallback to role-based checks for common permissions
+      // Simple string-based permission check
       switch (permission) {
         case 'dashboard.view':
           return true; // All authenticated users can view dashboard
         case 'signals.generate':
+          return true; // All authenticated users can generate signals
         case 'signals.view':
-          return userPermissions.includes(permission) || ['user', 'premium_user', 'moderator', 'admin', 'super_admin'].includes(userRole || '');
-        case 'users.view':
-        case 'users.create':
-        case 'users.update':
-        case 'users.delete':
-        case 'roles.view':
-        case 'roles.create':
-        case 'roles.update':
-        case 'roles.delete':
-          return userPermissions.includes(permission) || ['admin', 'super_admin'].includes(userRole || '');
-        case 'analytics.view':
-          return userPermissions.includes(permission) || ['premium_user', 'moderator', 'admin', 'super_admin'].includes(userRole || '');
-        case 'system.configure':
-          return userPermissions.includes(permission) || userRole === 'super_admin';
+          return true; // All authenticated users can view signals
+        case 'admin.users.manage':
+          return userRole === 'admin';
+        case 'admin.roles.manage':
+          return userRole === 'admin';
+        case 'admin.system.configure':
+          return userRole === 'admin';
+        case 'mod.signals.moderate':
+          return userRole === 'admin' || userRole === 'moderator';
         default:
-          return userPermissions.includes(permission);
+          return false;
       }
     }
 
