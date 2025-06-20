@@ -108,7 +108,7 @@ const DashboardPage: NextPage = () => {
               <Button variant="outline" size="icon">
                 <Bell className="w-4 h-4" />
               </Button>
-              <Button>
+              <Button onClick={() => window.location.href = '/signals/generate'}>
                 طلب إشارة جديدة
               </Button>
             </div>
@@ -160,9 +160,9 @@ const DashboardPage: NextPage = () => {
                       <Button 
                         variant={action.color as any} 
                         size="sm"
-                        disabled
+                        onClick={() => window.location.href = action.href}
                       >
-                        قريباً
+                        الانتقال
                       </Button>
                     </div>
                   </div>
@@ -184,8 +184,8 @@ const DashboardPage: NextPage = () => {
               <p className="text-muted-foreground mb-4">
                 ابدأ بطلب أول إشارة تداول لك لرؤية النشاط هنا
               </p>
-              <Button disabled>
-                طلب إشارة (قريباً)
+              <Button onClick={() => window.location.href = '/signals/generate'}>
+                طلب إشارة
               </Button>
             </Card>
           </div>

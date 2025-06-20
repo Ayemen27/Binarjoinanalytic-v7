@@ -21,65 +21,78 @@ export const usePermissions = (): UsePermissionsReturn => {
   const { user, session } = useAuth();
 
   const userRole = useMemo(() => {
-    // Placeholder until RBAC is implemented
-    // This will be replaced with actual role lookup from database
     if (!user) return null;
     
-    // For now, check if user email indicates admin role
+    // استخراج الدور من metadata المستخدم أو email
+    const userMetadata = user.user_metadata || {};
+    const assignedRole = userMetadata.role;
+    
+    if (assignedRole) return assignedRole;
+    
+    // فحص البريد الإلكتروني لتحديد الدور
     if (user.email?.includes('admin')) return 'admin';
     if (user.email?.includes('mod')) return 'moderator';
-    return 'user';
+    if (user.email?.includes('viewer')) return 'viewer';
+    
+    // الدور الافتراضي
+    return 'trader';
   }, [user]);
 
   const hasPermission = (permission: string | Permission): boolean => {
     if (!session || !user) return false;
 
-    // Placeholder implementation
-    // TODO: Replace with actual RBAC permission checking
-    
-    if (typeof permission === 'string') {
-      // Simple string-based permission check
-      switch (permission) {
-        case 'dashboard.view':
-          return true; // All authenticated users can view dashboard
-        case 'signals.generate':
-          return true; // All authenticated users can generate signals
-        case 'signals.view':
-          return true; // All authenticated users can view signals
-        case 'admin.users.manage':
-          return userRole === 'admin';
-        case 'admin.roles.manage':
-          return userRole === 'admin';
-        case 'admin.system.configure':
-          return userRole === 'admin';
-        case 'mod.signals.moderate':
-          return userRole === 'admin' || userRole === 'moderator';
-        default:
-          return false;
-      }
-    }
-
-    // Object-based permission check
-    const { resource, action, conditions } = permission;
-    
-    // Admin has all permissions
+    // المديرون لديهم جميع الصلاحيات
     if (userRole === 'admin') return true;
     
-    // Resource-specific permission logic
-    switch (resource) {
-      case 'signals':
-        if (action === 'view' || action === 'generate') return true;
-        if (action === 'moderate') return userRole === 'moderator';
-        return false;
-      case 'dashboard':
-        return action === 'view';
-      case 'users':
-        return userRole === 'admin' && action === 'manage';
-      case 'roles':
-        return userRole === 'admin' && action === 'manage';
-      default:
-        return false;
+    // تحديد الصلاحيات بناءً على الدور
+    const rolePermissions: Record<string, string[]> = {
+      admin: ['*'], // جميع الصلاحيات
+      moderator: [
+        'signals.view', 'signals.moderate', 'dashboard.view', 
+        'users.view', 'reports.manage'
+      ],
+      trader: [
+        'signals.generate', 'signals.view', 'dashboard.view'
+      ],
+      viewer: [
+        'signals.view', 'dashboard.view'
+      ]
+    };
+
+    const userPermissions = rolePermissions[userRole || 'viewer'] || [];
+    
+    // فحص الصلاحية المطلوبة
+    if (typeof permission === 'string') {
+      // إذا كان لدى المستخدم صلاحية شاملة
+      if (userPermissions.includes('*')) return true;
+      
+      // فحص الصلاحية المحددة
+      if (userPermissions.includes(permission)) return true;
+      
+      // فحص الصلاحيات المشتقة
+      const permissionParts = permission.split('.');
+      if (permissionParts.length === 2) {
+        const [resource, action] = permissionParts;
+        
+        // صلاحيات خاصة بالإدارة
+        if (permission.startsWith('users.') || permission.startsWith('roles.')) {
+          return userRole === 'admin';
+        }
+        
+        // صلاحيات المشرفين
+        if (permission === 'signals.moderate') {
+          return userRole === 'admin' || userRole === 'moderator';
+        }
+      }
+      
+      return false;
     }
+
+    // فحص الصلاحيات المعقدة (Object-based)
+    const { resource, action } = permission;
+    const permissionString = `${resource}.${action}`;
+    
+    return hasPermission(permissionString);
   };
 
   const hasAnyPermission = (permissions: (string | Permission)[]): boolean => {
@@ -92,7 +105,7 @@ export const usePermissions = (): UsePermissionsReturn => {
 
   const isAdmin = userRole === 'admin';
   const isModerator = userRole === 'moderator';
-  const isUser = userRole === 'user';
+  const isUser = userRole === 'trader' || userRole === 'viewer';
 
   return {
     hasPermission,

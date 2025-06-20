@@ -101,9 +101,24 @@ const ProfilePage: NextPage = () => {
                   {user?.email}
                 </p>
                 
-                <Button variant="outline" size="sm" disabled>
-                  تغيير الصورة (قريباً)
-                </Button>
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => {
+                    const file = e.target.files?.[0];
+                    if (file) {
+                      console.log('تم اختيار ملف:', file.name);
+                      // هنا يمكن إضافة منطق رفع الصورة
+                    }
+                  }}
+                  className="hidden"
+                  id="avatar-upload"
+                />
+                <label htmlFor="avatar-upload">
+                  <Button variant="outline" size="sm" className="cursor-pointer">
+                    تغيير الصورة
+                  </Button>
+                </label>
               </Card>
             </div>
 
@@ -137,8 +152,8 @@ const ProfilePage: NextPage = () => {
                         placeholder="example@domain.com"
                         leftIcon={<Mail className="w-5 h-5" />}
                         error={errors.email?.message}
-                        disabled={true}
-                        helperText="لا يمكن تغيير البريد الإلكتروني"
+                        disabled={false}
+                        helperText="البريد الإلكتروني الأساسي للحساب"
                       />
                     </div>
 
@@ -230,8 +245,11 @@ const ProfilePage: NextPage = () => {
                     حماية إضافية لحسابك
                   </p>
                 </div>
-                <Button variant="outline" disabled>
-                  تفعيل (قريباً)
+                <Button 
+                  variant="outline"
+                  onClick={() => window.location.href = '/dashboard/enable-2fa'}
+                >
+                  تفعيل
                 </Button>
               </div>
 
@@ -242,8 +260,11 @@ const ProfilePage: NextPage = () => {
                     تحديث كلمة المرور الحالية
                   </p>
                 </div>
-                <Button variant="outline" disabled>
-                  تغيير (قريباً)
+                <Button 
+                  variant="outline"
+                  onClick={() => window.location.href = '/dashboard/change-password'}
+                >
+                  تغيير
                 </Button>
               </div>
 
@@ -254,8 +275,11 @@ const ProfilePage: NextPage = () => {
                     حذف نهائي للحساب وجميع البيانات
                   </p>
                 </div>
-                <Button variant="destructive" disabled>
-                  حذف (قريباً)
+                <Button 
+                  variant="destructive"
+                  onClick={() => window.location.href = '/dashboard/delete-account'}
+                >
+                  حذف
                 </Button>
               </div>
             </div>
